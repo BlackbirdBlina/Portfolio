@@ -72,6 +72,8 @@ section {
 .navbar a:hover,
 .navbar a.active {
     color: var(--main-color);
+    border-bottom: 2px solid var(--main-color);
+    padding-bottom: 0.5rem;
 }
 
 #menu-icon {
@@ -310,4 +312,66 @@ section {
 .services-box p {
     font-size: 1.6rem;
     margin: 1rem 0 3rem;
+}
+
+/* Skills Section Code */
+
+.skills {
+    background-color: #98302e;
+}
+
+.skills-box {
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.skills .heading {
+    margin-bottom: 5rem;
+}
+
+.skills-box {
+    box-shadow: #1D0200;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 3rem;
+}
+
+.skills-item {
+    min-height: 450px;
+    max-width: 450px;
+    background: var(--bg-color);
+    border: 0.3rem solid var(--bg-color);
+    border-radius: 2rem;
+    margin: 0 2rem;
+    padding: 20px 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    color: var(--snd-bg-color);
+    transition: 0.3s ease;
+}
+
+.skills-item:hover {
+    border-color: var(--main-color);
+    transform: scale(1.02);
+    box-shadow: 0 0 1.6rem var(--bg-color);
+}
+
+.skills-item h2 {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.skills-item p {
+    font-size: 1.5rem;
+    text-align: center;
 }
