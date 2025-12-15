@@ -28,6 +28,7 @@ window.addEventListener("scroll", () => {
 
 initCube();
 initPiramide();
+initGears();
 
 function initCube() {
 
@@ -198,17 +199,17 @@ function initPiramide() {
     });
 
 
-    // 2.7 GRUPO DO CUBO (ESSENCIAL PARA ROTAÇÃO)
-    const cubeGroup = new THREE.Group();
-    scene.add(cubeGroup);
+    // 2.7 GRUPO DA PIRÂMIDE (ESSENCIAL PARA ROTAÇÃO)
+    const pyramidGroup = new THREE.Group();
+    scene.add(pyramidGroup);
 
     const pyramidCenter = new THREE.Vector3(0, 0, 0);
 
     // 2.8 PIRÂMIDE FRAGMENTADA (PIRÂMIDES TRIANGULARES)
     const divisions = 3;
-    const cubeSize = 1.5;
-    const spacing = cubeSize / divisions;
-    const smallCubes = [];
+    const pyramidSize = 1.5;
+    const spacing = pyramidSize / divisions;
+    const smallPyramids = [];
 
     for (let y = 0; y < divisions; y++) {
 
@@ -253,8 +254,8 @@ function initPiramide() {
                 blurMesh.scale.multiplyScalar(1.25);
                 smallPyramid.add(blurMesh);
 
-                cubeGroup.add(smallPyramid);
-                smallCubes.push(smallPyramid);
+                pyramidGroup.add(smallPyramid);
+                smallPyramids.push(smallPyramid);
             }
         }
     }
@@ -271,7 +272,7 @@ function initPiramide() {
         mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
         raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(smallCubes);
+        const intersects = raycaster.intersectObjects(smallPyramids);
 
         isHovered = intersects.length > 0;
         renderer.domElement.style.cursor = isHovered ? "pointer" : "default";
@@ -286,16 +287,15 @@ function initPiramide() {
 
         // ROTAÇÃO CONTÍNUA (SEMPRE)
         const speed = isHovered ? hoverSpeed : baseSpeed;
-        cubeGroup.rotation.x += speed;
-        cubeGroup.rotation.y += speed * 1.3;
+        pyramidGroup.rotation.y += speed * 1.3;
 
-        // EXPANDE / RECOMPÕE OS CUBINHOS
-        smallCubes.forEach(cube => {
+        // EXPANDE / RECOMPÕE AS PIRAMIDEZINHAS
+        smallPyramids.forEach(pyramid => {
             const target = isHovered
-                ? cube.userData.explodedPosition
-                : cube.userData.initialPosition;
+                ? pyramid.userData.explodedPosition
+                : pyramid.userData.initialPosition;
 
-            cube.position.lerp(target, 0.06);
+            pyramid.position.lerp(target, 0.06);
         });
 
         renderer.render(scene, camera);
@@ -305,3 +305,185 @@ function initPiramide() {
 }
 
 
+function initGears() {
+
+    const container = document.getElementById("gear-container");
+    if (!container || !window.THREE) return;
+
+    // CENA
+    const scene = new THREE.Scene();
+
+    // CÂMERA
+    const camera = new THREE.PerspectiveCamera(
+        75,
+        container.clientWidth / container.clientHeight,
+        0.1,
+        1000
+    );
+    camera.position.z = 7;
+
+    // RENDERER
+    const renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true
+    });
+
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    // LUZ
+    const light = new THREE.PointLight(0xff0000, 1.4, 100);
+    light.position.set(5, 5, 6);
+    scene.add(light);
+
+    const ambient = new THREE.AmbientLight(0x330000, 0.6);
+    scene.add(ambient);
+
+    // GRUPO PRINCIPAL
+    const gearGroup = new THREE.Group();
+    scene.add(gearGroup);
+
+    // MATERIAL
+    const gearMaterial = new THREE.MeshStandardMaterial({
+        color: 0xff0000,
+        emissive: 0x550000,
+        emissiveIntensity: 0.6,
+        metalness: 0.6,
+        roughness: 0.35,
+        side: THREE.DoubleSide
+    });
+
+
+    // FUNÇÃO DE ENGRENAGEM
+    function createGear({
+        radius,
+        thickness,
+        teeth,
+        toothWidth,
+        toothHeight
+    }) {
+        const gear = new THREE.Group();
+
+        // CORPO COM FURO
+
+        const outerRadius = radius;
+        const innerRadius = radius * 0.60; // controla o tamanho do furo
+
+        const bodyGeometry = new THREE.RingGeometry(
+            innerRadius,
+            outerRadius,
+            48
+        );
+
+        const body = new THREE.Mesh(bodyGeometry, gearMaterial);
+        // body.rotation.x = Math.PI / 2;
+        gear.add(body);
+
+        // DENTES
+        for (let i = 0; i < teeth; i++) {
+            const angle = (i / teeth) * Math.PI * 2;
+
+            const toothGeometry = new THREE.BoxGeometry(
+                toothWidth,
+                toothHeight,
+                thickness
+            );
+
+            const tooth = new THREE.Mesh(toothGeometry, gearMaterial);
+
+            const distance = outerRadius + toothHeight / 2;
+
+            tooth.position.set(
+                Math.cos(angle) * distance,
+                Math.sin(angle) * distance,
+                0
+            );
+
+            tooth.rotation.z = angle;
+            gear.add(tooth);
+        }
+
+        return gear;
+    }
+
+
+    // CONFIGURAÇÃO
+    const gears = [];
+
+    const gearConfig = [
+        { x:  0,   y:  0,   size: 1.2, teeth: Math.round(1.2 * 6), dir:  1 },
+        { x: -2.2, y:  1.5, size: 0.6, teeth: Math.round(0.6 * 12), dir: -1 },
+        { x:  2.2, y:  1.5, size: 0.6, teeth: Math.round(0.6 * 12), dir:  1 },
+        { x: -2.2, y: -1.5, size: 0.5, teeth: Math.round(0.6 * 12), dir:  1 },
+        { x:  2.2, y: -1.5, size: 0.5, teeth: Math.round(0.6 * 12), dir: -1 }
+    ];
+
+    gearConfig.forEach(cfg => {
+
+        const gear = createGear({
+            radius: cfg.size,
+            thickness: 0.35,
+            teeth: cfg.teeth,
+            toothWidth: cfg.size * 0.3,
+            toothHeight: cfg.size * 0.4
+        });
+
+        gear.position.set(cfg.x, cfg.y, 0);
+
+        gear.userData = {
+            initialPosition: gear.position.clone(),
+            explodedPosition: gear.position.clone().multiplyScalar(1.7),
+            rotationDir: cfg.dir,
+            rotationSpeed: 0.01 + Math.random() * 0.008
+        };
+
+        gears.push(gear);
+        gearGroup.add(gear);
+    });
+
+    // INTERAÇÃO
+    let isHovered = false;
+
+    container.addEventListener("mouseenter", () => {
+        isHovered = true;
+        container.style.cursor = "pointer";
+    });
+
+    container.addEventListener("mouseleave", () => {
+        isHovered = false;
+        container.style.cursor = "default";
+    });
+
+    // RESIZE
+    window.addEventListener("resize", () => {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+    });
+
+    // ANIMAÇÃO
+    function animate() {
+        requestAnimationFrame(animate);
+
+        gears.forEach(gear => {
+
+            // Rotação contínua
+            gear.rotation.z -=
+                gear.userData.rotationSpeed *
+                gear.userData.rotationDir;
+
+            // Espalhar / juntar
+            const target = isHovered
+                ? gear.userData.explodedPosition
+                : gear.userData.initialPosition;
+
+            gear.position.lerp(target, 0.06);
+        });
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+}
