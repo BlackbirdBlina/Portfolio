@@ -91,7 +91,7 @@ section {
 }
 
 .home-img img {
-    width: 15vw;
+    width: 23vw;
     border-radius: 50%;
     box-shadow: 0 0 25px var(--main-color);
     cursor: pointer;
@@ -202,7 +202,7 @@ section {
 }
 
 .about-img img {
-    width: 15vw;
+    width: 23vw;
     border: 2px solid var(--trd-bg-color);
     border-radius: 50%;
     box-shadow: 0 0 25px var(--trd-bg-color);
@@ -264,7 +264,7 @@ section {
     box-shadow: 0 0 1.6rem var(--bg-color);
 }
 
-/* Serices Section Code */
+/* Services Section Code */
 
 .services h2 {
     margin-bottom: 5rem;
@@ -329,49 +329,42 @@ section {
 }
 
 .skills .heading {
-    margin-bottom: 5rem;
+    font-size: 6rem;
+    text-align: center;
+    color: #000;
 }
 
-.skills-box {
-    box-shadow: #1D0200;
-}
-
-.wrapper {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 3rem;
-}
-
-.skills-item {
-    min-height: 450px;
-    max-width: 450px;
-    background: var(--bg-color);
-    border: 0.3rem solid var(--bg-color);
-    border-radius: 2rem;
-    margin: 0 2rem;
-    padding: 20px 20px;
-    cursor: pointer;
+.skills-container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1.5rem;
-    color: var(--snd-bg-color);
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.skills-container .skills-box {
+    flex: 1 1 30rem;
+    background: var(--bg-color);
+    padding: 6rem 2rem 6rem;
+    border-radius: 2rem;
+    text-align: center;
+    border: 0.3rem solid var(--bg-color);
     transition: 0.3s ease;
 }
 
-.skills-item:hover {
+.skills-box:hover {
     border-color: var(--main-color);
     transform: scale(1.02);
     box-shadow: 0 0 1.6rem var(--bg-color);
 }
 
-.skills-item h2 {
-    font-size: 2rem;
+.skills h2 {
+    margin-bottom: 5rem;
     text-align: center;
+    color: var(--snd-bg-color);
 }
 
-.skills-item p {
+.skills-box p {
     font-size: 1.5rem;
     text-align: center;
 }
