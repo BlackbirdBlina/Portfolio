@@ -91,7 +91,7 @@ section {
 }
 
 .home-img img {
-    width: 23vw;
+    width: 22vw;
     border-radius: 50%;
     box-shadow: 0 0 25px var(--main-color);
     cursor: pointer;
@@ -202,7 +202,7 @@ section {
 }
 
 .about-img img {
-    width: 23vw;
+    width: 22vw;
     border: 2px solid var(--trd-bg-color);
     border-radius: 50%;
     box-shadow: 0 0 25px var(--trd-bg-color);
@@ -216,7 +216,7 @@ section {
                 0 0 45px var(--trd-bg-color);
 }
 
-.heading {
+.about .heading {
     font-size: 6rem;
     text-align: left;
     color: #000;
@@ -274,6 +274,11 @@ section {
 
 .services .multiple-text {
     color: var(--main-color);
+}
+
+.services .heading {
+    font-size: 6rem;
+    text-align: center;
 }
 
 .services-container {
@@ -367,4 +372,104 @@ section {
 .skills-box p {
     font-size: 1.5rem;
     text-align: center;
+}
+
+/* Contact Section Code */
+
+.contact {
+    background-color: var(--bg-color);
+}
+
+.contact h2 {
+    margin-bottom: 3rem;
+    color: var(--snd-bg-color);
+}
+
+.contact .multiple-text {
+    color: var(--main-color);
+}
+
+.contact .heading {
+    font-size: 6rem;
+    text-align: left;
+}
+
+.contact form {
+    max-width: 80rem;
+    margin: 1rem auto;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.contact form .input-box {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.contact form .input-box input,
+.contact form textarea {
+    width: 100%;
+    padding: 1.5rem;
+    font-size: 1.6rem;
+    color: var(--main-color);
+    background-color: var(--bg-color);
+    border-radius: 0.8rem;
+    border: 0.25rem solid var(--main-color);
+    margin: 0.7rem 0;
+    resize: none;
+}
+
+.contact form .input-box input {
+    width: 49%;
+    margin: 0.7rem 0.35rem;
+}
+
+.contact form .btn {
+    margin-top: 2rem;
+}
+
+/* Footer Section Code */
+
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 40px 0;
+    background-color: var(--main-color);
+}
+
+.footer .social {
+    text-align: center;
+    padding-bottom: 25px;
+    color: var(--bg-color);
+    border: 2px solid var(--main-color);
+}
+
+.footer .social a {
+    font-size: 25px;
+    color: var(--bg-color);
+    border: 2px solid var(--bg-color);
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+    margin: 0 10px;
+    transition: 0.3s ease;
+}
+
+.footer .social a:hover {
+    transform: scale(1.2) translateY(-10px);
+    background-color: var(--bg-color);
+    color: var(--main-color);
+    box-shadow: 0 0 25px var(--bg-color);
+}
+
+.footer .copyright {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 16px;
+    color: var(--text-color);
 }
