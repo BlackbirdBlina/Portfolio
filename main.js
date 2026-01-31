@@ -71,18 +71,18 @@ function initCube() {
     container.appendChild(renderer.domElement);
 
     // 2.5 LUZ
-    const light = new THREE.PointLight(0xff0000, 1.2, 100);
+    const light = new THREE.PointLight(0xffffff, 1.2, 100);
     light.position.set(5, 5, 5);
     scene.add(light);
 
     // 2.6 MATERIAIS (PRETO + VERMELHO COM EMISSIVE)
     const materials = [
         new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0x220000, emissiveIntensity: 0.4 }),
-        new THREE.MeshStandardMaterial({ color: 0xff0000, emissive: 0x440000, emissiveIntensity: 0.4 })
+        new THREE.MeshStandardMaterial({ color: 0x98302e, emissive: 0x1D0200, emissiveIntensity: 0.4 })
     ];
 
     const blurMaterial = new THREE.MeshBasicMaterial({
-        color: 0xff0000,
+        color: 0x98302e,
         transparent: true,
         opacity: 0.25,
         depthWrite: false,
@@ -199,18 +199,18 @@ function initPiramide() {
     container.appendChild(renderer.domElement);
 
     // 2.5 LUZ
-    const light = new THREE.PointLight(0xff0000, 1.2, 100);
+    const light = new THREE.PointLight(0xffffff, 1.2, 100);
     light.position.set(5, 5, 5);
     scene.add(light);
 
     // 2.6 MATERIAIS (PRETO + VERMELHO COM EMISSIVE)
     const materials = [
         new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0x220000, emissiveIntensity: 0.4 }),
-        new THREE.MeshStandardMaterial({ color: 0xff0000, emissive: 0x440000, emissiveIntensity: 0.4 })
+        new THREE.MeshStandardMaterial({ color: 0x98302e, emissive: 0x1D0200, emissiveIntensity: 0.4 })
     ];
 
     const blurMaterial = new THREE.MeshBasicMaterial({
-        color: 0xff0000,
+        color: 0x98302e,
         transparent: true,
         opacity: 0.25,
         depthWrite: false,
@@ -351,12 +351,9 @@ function initGears() {
     container.appendChild(renderer.domElement);
 
     // LUZ
-    const light = new THREE.PointLight(0xff0000, 1.4, 100);
-    light.position.set(5, 5, 6);
+    const light = new THREE.PointLight(0xffffff, 1.2, 100);
+    light.position.set(0, 0, 5);
     scene.add(light);
-
-    const ambient = new THREE.AmbientLight(0x330000, 0.6);
-    scene.add(ambient);
 
     // GRUPO PRINCIPAL
     const gearGroup = new THREE.Group();
@@ -364,12 +361,17 @@ function initGears() {
 
     // MATERIAL
     const gearMaterial = new THREE.MeshStandardMaterial({
-        color: 0xff0000,
-        emissive: 0x550000,
-        emissiveIntensity: 0.6,
-        metalness: 0.6,
-        roughness: 0.35,
-        side: THREE.DoubleSide
+        color: 0x98302e,
+        emissive: 0x1D0200,
+        emissiveIntensity: 0.4,
+    });
+
+    const blurMaterial = new THREE.MeshBasicMaterial({
+        color: 0x98302e,
+        transparent: true,
+        opacity: 0.25,
+        depthWrite: false,
+        side: THREE.BackSide
     });
 
 
@@ -395,6 +397,11 @@ function initGears() {
         );
 
         const body = new THREE.Mesh(bodyGeometry, gearMaterial);
+
+        const blurMesh = new THREE.Mesh(bodyGeometry, blurMaterial);
+        blurMesh.scale.multiplyScalar(1.25);
+        body.add(blurMesh);
+
         // body.rotation.x = Math.PI / 2;
         gear.add(body);
 
@@ -418,6 +425,9 @@ function initGears() {
                 0
             );
 
+            const blurMesh = new THREE.Mesh(toothGeometry, blurMaterial);
+            blurMesh.scale.multiplyScalar(1.25);
+            tooth.add(blurMesh);
             tooth.rotation.z = angle;
             gear.add(tooth);
         }
