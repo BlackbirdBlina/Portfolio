@@ -36,7 +36,7 @@ window.addEventListener("scroll", () => {
 });
 
 const typed = new Typed('.multiple-text', {
-    strings: ["Desenvolvedora Fronted", "Web Designer", "Desenvolvedora Backend"],
+    strings: ["Desenvolvedora Frontend", "Web Designer", "Desenvolvedora Backend"],
     typeSpeed: 80,
     baackSpeed: 80,
     backDelay: 1200,
